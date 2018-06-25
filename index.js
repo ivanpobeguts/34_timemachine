@@ -1,6 +1,6 @@
 var TIMEOUT_IN_SECS = 10
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
-var ALLERT_TEXT = [
+var ALERT_TEXT = [
   'Oops! Maybe you should return to work?',
   'Time flies!'
 ]
@@ -70,11 +70,13 @@ class TimerWidget {
     // adds HTML tag to current page
     this.timerContainer = document.createElement('div')
     this.timerContainer.setAttribute("style", "height: 100px;")
+    this.timerContainer.style.position = "fixed"
     this.timerContainer.style.zIndex = "1"
     this.timerContainer.style.top = "10px"
-    this.timerContainer.style.padding = "10px 10px"
+    this.timerContainer.style.padding = "20px 10px 10px 10px"
     this.timerContainer.style.margin = "10px"
-    this.timerContainer.style.color = "green"
+    this.timerContainer.style.color = "#6A5ACD"
+    this.timerContainer.style.border = "thick solid #6A5ACD"
 
     rootTag.insertBefore(this.timerContainer, rootTag.firstChild)
     this.timerContainer.innerHTML = TEMPLATE
@@ -112,8 +114,8 @@ function main() {
 
   function throughAlert() {
     if (timer.isTimeLeft()) {
-      var randomNumber = Math.floor(Math.random() * expressions.length);
-      alert(expressions[randomNumber]);
+      var randomNumber = Math.floor(Math.random() * ALERT_TEXT.length)
+      window.alert(ALERT_TEXT[randomNumber])
     }
   }
 
