@@ -1,8 +1,15 @@
-var TIMEOUT_IN_SECS = 10
+var TIMEOUT_IN_SECS = 5 * 60
+var var ALERT_INTERVAL = 1000 * 30
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
 var ALERT_TEXT = [
-  'Oops! Maybe you should return to work?',
-  'Time flies!'
+  'If time be of all things the most precious, wasting time must be the greatest prodigality.',
+  'There is no good way to waste your time. Wasting time is just wasting time.',
+  'Only I can change my life. No one can do it for me.',
+  'Good, better, best. Never let it rest. Until your good is better and your better is best.',
+  'The past cannot be changed. The future is yet in your power.',
+  'Set your goals high, and don\'t stop till you get there.',
+  'Without hard work, nothing grows but weeds.',
+  'Things do not happen. Things are made to happen.'
 ]
 
 function padZero(number) {
@@ -132,7 +139,7 @@ function main() {
     } else {
       timer.start()
       intervalId = intervalId || setInterval(handleIntervalTick, 300)
-      alertInterval = setInterval(throughAlert, 5000)
+      alertInterval = setInterval(throughAlert, ALERT_INTERVAL)
     }
   }
 
