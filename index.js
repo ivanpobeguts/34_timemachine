@@ -1,6 +1,6 @@
 var TIMEOUT_IN_SECS = 10
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
-var expressions = [
+var ALLERT_TEXT = [
   'Oops! Maybe you should return to work?',
   'Time flies!'
 ]
