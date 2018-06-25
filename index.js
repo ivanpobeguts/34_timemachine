@@ -1,5 +1,9 @@
-var TIMEOUT_IN_SECS = 3 * 60
+var TIMEOUT_IN_SECS = 10
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
+var expressions = [
+    'Oops! Maybe you should return to work?',
+    'Time flies!'
+]
 
 function padZero(number){
   return ("00" + String(number)).slice(-2);
@@ -40,6 +44,9 @@ class Timer{
     var currentTimestamp = this.getTimestampInSecs()
     var secsGone = currentTimestamp - this.timestampOnStart
     return Math.max(this.timeout_in_secs - secsGone, 0)
+  }
+  isTimeLeft(){
+    return this.calculateSecsLeft() === 0
   }
 }
 
@@ -84,34 +91,33 @@ function main(){
 
   var timer = new Timer(TIMEOUT_IN_SECS)
   var timerWiget = new TimerWidget()
-  var alertTimer = new Timer(10)
+  var alertTimer = new Timer(5)
   var intervalId = null
   var alertInterval = null
 
   timerWiget.mount(document.body)
+
+  function throughAlert() {
+    if (timer.isTimeLeft()){
+        var randomNumber = Math.floor(Math.random()*expressions.length);
+        alert(expressions[randomNumber]);
+    }
+}
 
   function handleIntervalTick(){
     var secsLeft = timer.calculateSecsLeft()
     timerWiget.update(secsLeft)
   }
 
-  function handleAlerts(){
-    alert( "Alert!" );
-  }
-
   function handleVisibilityChange(){
     if (document.hidden) {
       timer.stop()
-      alertTimer.stop()
-      clearInterval(alertInterval)
       clearInterval(intervalId)
       intervalId = null
-      alertInterval = null
     } else {
       timer.start()
-      alertTimer.start()
       intervalId = intervalId || setInterval(handleIntervalTick, 300)
-      alertInterval = alertInterval || setInterval(handleAlerts, 5000)
+      alertInterval = setInterval(throughAlert, 5000)
     }
   }
 
