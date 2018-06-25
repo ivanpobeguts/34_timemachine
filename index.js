@@ -1,84 +1,97 @@
 var TIMEOUT_IN_SECS = 10
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
 var expressions = [
-    'Oops! Maybe you should return to work?',
-    'Time flies!'
+  'Oops! Maybe you should return to work?',
+  'Time flies!'
 ]
 
-function padZero(number){
+function padZero(number) {
   return ("00" + String(number)).slice(-2);
 }
 
-class Timer{
+class Timer {
   // IE does not support new style classes yet
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
-  constructor(timeout_in_secs){
+  constructor(timeout_in_secs) {
     this.initial_timeout_in_secs = timeout_in_secs
     this.reset()
   }
-  getTimestampInSecs(){
+
+  getTimestampInSecs() {
     var timestampInMilliseconds = new Date().getTime()
-    return Math.round(timestampInMilliseconds/1000)
+    return Math.round(timestampInMilliseconds / 1000)
   }
-  start(){
+
+  start() {
     if (this.isRunning)
       return
     this.timestampOnStart = this.getTimestampInSecs()
     this.isRunning = true
   }
-  stop(){
+
+  stop() {
     if (!this.isRunning)
       return
     this.timeout_in_secs = this.calculateSecsLeft()
     this.timestampOnStart = null
     this.isRunning = false
   }
-  reset(timeout_in_secs){
+
+  reset(timeout_in_secs) {
     this.isRunning = false
     this.timestampOnStart = null
     this.timeout_in_secs = this.initial_timeout_in_secs
   }
-  calculateSecsLeft(){
+
+  calculateSecsLeft() {
     if (!this.isRunning)
       return this.timeout_in_secs
     var currentTimestamp = this.getTimestampInSecs()
     var secsGone = currentTimestamp - this.timestampOnStart
     return Math.max(this.timeout_in_secs - secsGone, 0)
   }
-  isTimeLeft(){
+
+  isTimeLeft() {
     return this.calculateSecsLeft() === 0
   }
 }
 
-class TimerWidget{
+class TimerWidget {
   // IE does not support new style classes yet
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
-  construct(){
+  construct() {
     this.timerContainer = this.minutes_element = this.seconds_element = null
   }
-  mount(rootTag){
+
+  mount(rootTag) {
     if (this.timerContainer)
       this.unmount()
 
     // adds HTML tag to current page
     this.timerContainer = document.createElement('div')
-
     this.timerContainer.setAttribute("style", "height: 100px;")
-    this.timerContainer.innerHTML = TEMPLATE
+    this.timerContainer.style.zIndex = "1"
+    this.timerContainer.style.top = "10px"
+    this.timerContainer.style.padding = "10px 10px"
+    this.timerContainer.style.margin = "10px"
+    this.timerContainer.style.color = "green"
 
     rootTag.insertBefore(this.timerContainer, rootTag.firstChild)
+    this.timerContainer.innerHTML = TEMPLATE
 
     this.minutes_element = this.timerContainer.getElementsByClassName('js-timer-minutes')[0]
     this.seconds_element = this.timerContainer.getElementsByClassName('js-timer-seconds')[0]
   }
-  update(secsLeft){
+
+  update(secsLeft) {
     var minutes = Math.floor(secsLeft / 60);
     var seconds = secsLeft - minutes * 60;
 
     this.minutes_element.innerHTML = padZero(minutes)
     this.seconds_element.innerHTML = padZero(seconds)
   }
-  unmount(){
+
+  unmount() {
     if (!this.timerContainer)
       return
     this.timerContainer.remove()
@@ -87,7 +100,7 @@ class TimerWidget{
 }
 
 
-function main(){
+function main() {
 
   var timer = new Timer(TIMEOUT_IN_SECS)
   var timerWiget = new TimerWidget()
@@ -98,18 +111,18 @@ function main(){
   timerWiget.mount(document.body)
 
   function throughAlert() {
-    if (timer.isTimeLeft()){
-        var randomNumber = Math.floor(Math.random()*expressions.length);
-        alert(expressions[randomNumber]);
+    if (timer.isTimeLeft()) {
+      var randomNumber = Math.floor(Math.random() * expressions.length);
+      alert(expressions[randomNumber]);
     }
-}
+  }
 
-  function handleIntervalTick(){
+  function handleIntervalTick() {
     var secsLeft = timer.calculateSecsLeft()
     timerWiget.update(secsLeft)
   }
 
-  function handleVisibilityChange(){
+  function handleVisibilityChange() {
     if (document.hidden) {
       timer.stop()
       clearInterval(intervalId)
