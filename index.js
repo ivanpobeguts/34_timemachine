@@ -84,7 +84,9 @@ function main(){
 
   var timer = new Timer(TIMEOUT_IN_SECS)
   var timerWiget = new TimerWidget()
+  var alertTimer = new Timer(10)
   var intervalId = null
+  var alertInterval = null
 
   timerWiget.mount(document.body)
 
@@ -93,14 +95,23 @@ function main(){
     timerWiget.update(secsLeft)
   }
 
+  function handleAlerts(){
+    alert( "Alert!" );
+  }
+
   function handleVisibilityChange(){
     if (document.hidden) {
       timer.stop()
+      alertTimer.stop()
+      clearInterval(alertInterval)
       clearInterval(intervalId)
       intervalId = null
+      alertInterval = null
     } else {
       timer.start()
+      alertTimer.start()
       intervalId = intervalId || setInterval(handleIntervalTick, 300)
+      alertInterval = alertInterval || setInterval(handleAlerts, 5000)
     }
   }
 
