@@ -7,7 +7,7 @@ This project helps to control time was spent on sites. It requires special exten
 Install extension for Chrome browser [Custom JavaScript for websites](https://chrome.google.com/webstore/detail/custom-javascript-for-web/poakhlngfciodnhlhhgnaaelnpjljija).
 
 Open configuration of [cjs](https://chrome.google.com/webstore/detail/custom-javascript-for-web/poakhlngfciodnhlhhgnaaelnpjljija) browser extension on the site you want to controll. Click on the link "your own external scripts", 
-add path [https://ivanpobeguts.github.io/34_timemachine/index.js](https://ivanpobeguts.github.io/34_timemachine/index.js).
+add path https://rawgit.com/ivanpobeguts/34_timemachine/master/index.js](https://rawgit.com/ivanpobeguts/34_timemachine/master/index.js).
 Don`t forget to press "enable cjs for this host" to enable custom JS.
 
 Page will be reloaded and timer appears in the left corner. The timer will move down with page scrolling.
