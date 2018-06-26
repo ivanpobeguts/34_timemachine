@@ -1,4 +1,4 @@
-var TIMEOUT_IN_SECS = 5 * 60
+var TIMEOUT_IN_SECS = 3 * 60
 var ALERT_INTERVAL = 1000 * 30
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
 var ALERT_TEXT = [
@@ -113,9 +113,8 @@ function main() {
 
   var timer = new Timer(TIMEOUT_IN_SECS)
   var timerWiget = new TimerWidget()
-  var alertTimer = new Timer(5)
   var intervalId = null
-  var alertInterval = null
+  var alertIntervalId = null
 
   timerWiget.mount(document.body)
 
@@ -139,7 +138,7 @@ function main() {
     } else {
       timer.start()
       intervalId = intervalId || setInterval(handleIntervalTick, 300)
-      alertInterval = setInterval(throughAlert, ALERT_INTERVAL)
+      alertIntervalId = setInterval(throughAlert, ALERT_INTERVAL)
     }
   }
 
