@@ -1,5 +1,5 @@
 var TIMEOUT_IN_SECS = 5 * 60
-var var ALERT_INTERVAL = 1000 * 30
+var ALERT_INTERVAL = 1000 * 30
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
 var ALERT_TEXT = [
   'If time be of all things the most precious, wasting time must be the greatest prodigality.',
