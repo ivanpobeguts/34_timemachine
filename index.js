@@ -1,5 +1,5 @@
 var TIMEOUT_IN_SECS = 3 * 60
-var ALERT_INTERVAL = 1000 * 30
+var ALERT_INTERVAL_IN_SECS = 30
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
 var ALERT_TEXT = [
   'If time be of all things the most precious, wasting time must be the greatest prodigality.',
@@ -112,6 +112,7 @@ class TimerWidget {
 function main() {
 
   var timer = new Timer(TIMEOUT_IN_SECS)
+  var alertTimer = new Timer(5)
   var timerWiget = new TimerWidget()
   var intervalId = null
   var alertIntervalId = null
@@ -120,8 +121,13 @@ function main() {
 
   function throughAlert() {
     if (timer.isTimeLeft()) {
+      alertTimer.start();
+    }
+
+    if (alertTimer.isTimeLeft()) {
       var randomNumber = Math.floor(Math.random() * ALERT_TEXT.length)
       window.alert(ALERT_TEXT[randomNumber])
+      alertTimer = new Timer(5)
     }
   }
 
@@ -133,12 +139,18 @@ function main() {
   function handleVisibilityChange() {
     if (document.hidden) {
       timer.stop()
+      alertTimer.stop()
       clearInterval(intervalId)
+      clearInterval(alertIntervalId)
       intervalId = null
+      alertIntervalId = null
     } else {
       timer.start()
+      if (timer.isTimeLeft()) {
+        alertTimer.start()
+      }
       intervalId = intervalId || setInterval(handleIntervalTick, 300)
-      alertIntervalId = setInterval(throughAlert, ALERT_INTERVAL)
+      alertIntervalId =alertIntervalId || setInterval(throughAlert, 300)
     }
   }
 
