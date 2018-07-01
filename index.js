@@ -78,7 +78,7 @@ class TimerWidget {
     this.timerContainer = document.createElement('div')
     this.timerContainer.setAttribute("style", "height: 100px;")
     this.timerContainer.style.position = "fixed"
-    this.timerContainer.style.zIndex = "1"
+    this.timerContainer.style.zIndex = "1000"
     this.timerContainer.style.top = "10px"
     this.timerContainer.style.padding = "20px 10px 10px 10px"
     this.timerContainer.style.margin = "10px"
