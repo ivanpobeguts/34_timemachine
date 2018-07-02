@@ -127,7 +127,7 @@ function main() {
     if (alertTimer.isTimeOver()) {
       var randomNumber = Math.floor(Math.random() * ALERT_TEXT.length)
       window.alert(ALERT_TEXT[randomNumber])
-      alertTimer = new Timer(5)
+      alertTimer = new Timer(ALERT_INTERVAL_IN_SECS)
     }
   }
 
