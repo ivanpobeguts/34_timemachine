@@ -58,7 +58,7 @@ class Timer {
     return Math.max(this.timeout_in_secs - secsGone, 0)
   }
 
-  isTimeLeft() {
+  isTimeOver() {
     return this.calculateSecsLeft() === 0
   }
 }
@@ -112,19 +112,19 @@ class TimerWidget {
 function main() {
 
   var timer = new Timer(TIMEOUT_IN_SECS)
-  var alertTimer = new Timer(5)
+  var alertTimer = new Timer(ALERT_INTERVAL_IN_SECS)
   var timerWiget = new TimerWidget()
   var intervalId = null
   var alertIntervalId = null
 
   timerWiget.mount(document.body)
 
-  function throughAlert() {
-    if (timer.isTimeLeft()) {
+  function throwAlert() {
+    if (timer.isTimeOver()) {
       alertTimer.start();
     }
 
-    if (alertTimer.isTimeLeft()) {
+    if (alertTimer.isTimeOver()) {
       var randomNumber = Math.floor(Math.random() * ALERT_TEXT.length)
       window.alert(ALERT_TEXT[randomNumber])
       alertTimer = new Timer(5)
@@ -146,11 +146,8 @@ function main() {
       alertIntervalId = null
     } else {
       timer.start()
-      if (timer.isTimeLeft()) {
-        alertTimer.start()
-      }
       intervalId = intervalId || setInterval(handleIntervalTick, 300)
-      alertIntervalId =alertIntervalId || setInterval(throughAlert, 300)
+      alertIntervalId = alertIntervalId || setInterval(throwAlert, 300)
     }
   }
 
